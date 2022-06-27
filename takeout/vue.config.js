@@ -3,9 +3,9 @@ module.exports = {
   configureWebpack:{
     resolve:{
       alias: {
-        'common':"@/common",
         'components':'@/components',
         'route':'@/route',
+        'utils':'@/utils',
         'store':'@/store',
         'assets':'@/assets'
       }
