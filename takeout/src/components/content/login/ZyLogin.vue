@@ -9,7 +9,7 @@
           <div class="input_con">
             <el-form-item prop="userlogin">
               <el-input prefix-icon="el-icon-user" 
-                        v-model="userdata.name" 
+                        v-model="userdata.username" 
                         placeholder="请输入账号">
               </el-input>
             </el-form-item>
@@ -23,7 +23,7 @@
           </div>
           <el-form-item class="but">
             <el-button type="primary" @click="submit">登录</el-button>
-            <el-button type="info" @click.native="resetform">重置</el-button>
+            <el-button type="info" @click="resetform">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -32,24 +32,25 @@
 </template>
 
 <script>
+import {login} from '@/network/login'
 export default {
   name:'ZyLogin',
   data() {
     return {
       //用户的数据
       userdata:{
-        name:'',
-        password:''
+        username:'admin',
+        password:'123456'
       },
       //表单验证规则
       rules:{
         userlogin:[
             { required: false, message: '请输入账号', trigger: 'blur' },
-            { min:0, max:8 , message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            { min: 1, max: 8 , message: '长度在 1 到 8 个字符', trigger: 'blur'}
         ],
         password:[
-            { required: false, message: '请输入密码', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            { required: true, message: '请输入密码', trigger: 'blur' },
+            { min: 3, max: 8, message: '长度在 3 到 5 个字符', trigger: 'blur'}
         ]
       }
     }
@@ -60,7 +61,24 @@ export default {
       this.$refs.loginform.resetFields();
     },
     submit(){
-      console.log(1);
+      this.$refs.loginform.validate((valid)=>{
+        if(!valid){
+          return false
+        }
+        else{
+          login(this.userdata.username,this.userdata.password).then(res=>{
+            const data=res.data;
+            if(data.meta.status===200){
+              this.$toast.show(data.meta.msg,300);
+              sessionStorage.setItem('token',data.data.token);
+              this.$router.push('/home');
+            }
+            else{
+              this.$toast.show(data.meta.msg,800);
+            }
+          })
+        }
+      });
     }
   },
 }

@@ -7,7 +7,8 @@ module.exports = {
         'route':'@/route',
         'utils':'@/utils',
         'store':'@/store',
-        'assets':'@/assets'
+        'assets':'@/assets',
+        'views':'@/views'
       }
     }
   }
