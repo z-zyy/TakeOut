@@ -17,7 +17,47 @@ const routes=[
   },
   {
     path:'/home',
+    redirect:'/home/welcome',
     component:()=>import('views/home/Home'),
+    children:[
+      {
+        path:'welcome',
+        component:()=>import('views/main/WelCome')
+
+      },
+      {
+        path:'users',
+        component:()=>import('views/main/user/Users')
+      },
+      {
+        path:"rights",
+        component:()=>import('views/main/rights/Rights')
+      },
+      {
+        path:"roles",
+        component:()=>import('views/main/roles/Roles')
+      },
+      {
+        path:"params",
+        component:()=>import('views/main/params/Params')
+      },
+      {
+        path:"goods",
+        component:()=>import('views/main/goods/Goods')
+      },
+      {
+        path:"categories",
+        component:()=>import('views/main/categories/Categories')
+      },
+      {
+        path:'orders',
+        component:()=>import('views/main/orders/Orders')
+      },
+      {
+        path:'reports',
+        component:()=>import('views/main/reports/Reports')
+      }
+    ],
     meta:{
       title:'home'
     }

@@ -71,7 +71,9 @@ export default {
             if(data.meta.status===200){
               this.$toast.show(data.meta.msg,300);
               sessionStorage.setItem('token',data.data.token);
-              this.$router.push('/home');
+              setTimeout(()=>{
+                this.$router.push('/home')
+              },200)
             }
             else{
               this.$toast.show(data.meta.msg,800);
