@@ -5,18 +5,18 @@
         <img src="~assets/img/onepiece.png" alt="avatar">
       </div>
       <div class="input_contain">
-        <el-form label-width="0px" :model="userdata" :rules="rules" ref="loginform">
+        <el-form label-width="0px" :model="Userdata" :rules="rules" ref="loginform">
           <div class="input_con">
-            <el-form-item prop="userlogin">
+            <el-form-item prop="username">
               <el-input prefix-icon="el-icon-user" 
-                        v-model="userdata.username" 
+                        v-model="Userdata.username" 
                         placeholder="请输入账号">
               </el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input prefix-icon="el-icon-lock" 
                         show-password
-                        v-model="userdata.password" 
+                        v-model="Userdata.password" 
                         placeholder="请输入密码">
               </el-input>
             </el-form-item>
@@ -33,24 +33,25 @@
 
 <script>
 import {login} from '@/network/login'
+import {CheckUsername,CheckPassword} from '@/utils/utils'
 export default {
   name:'ZyLogin',
   data() {
     return {
       //用户的数据
-      userdata:{
+      Userdata:{
         username:'admin',
         password:'123456'
       },
       //表单验证规则
       rules:{
-        userlogin:[
-            { required: false, message: '请输入账号', trigger: 'blur' },
-            { min: 1, max: 8 , message: '长度在 1 到 8 个字符', trigger: 'blur'}
+        username:[
+          {required:true,message:'请输入账号',trigger: 'blur'},
+          {validator:CheckUsername,trigger: 'blur'}
         ],
         password:[
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            { min: 3, max: 8, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          {required:true,message:'请输入密码',trigger: 'blur'},
+          {validator:CheckPassword,trigger: 'blur'}
         ]
       }
     }
@@ -66,7 +67,7 @@ export default {
           return false
         }
         else{
-          login(this.userdata.username,this.userdata.password).then(res=>{
+          login(this.Userdata.username,this.Userdata.password).then(res=>{
             const data=res.data;
             if(data.meta.status===200){
               this.$toast.show(data.meta.msg,300);

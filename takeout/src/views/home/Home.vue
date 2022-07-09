@@ -56,7 +56,7 @@ export default {
     //退出账号
     logout(){
       sessionStorage.clear();
-      this.$router.back(-1);
+      this.$router.push('/login');
     },
    //菜单折叠切换
     toggleMenu(){

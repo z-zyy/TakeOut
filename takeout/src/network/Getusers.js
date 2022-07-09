@@ -1,5 +1,6 @@
 import { request } from "./index";
 
+//获取用户
 export function Getusers(query,pagenum,pagesize){
   return request({
     url:'/users',
@@ -7,6 +8,35 @@ export function Getusers(query,pagenum,pagesize){
       query,
       pagenum,
       pagesize
+    }
+  })
+}
+//查询用户
+export function SerachUser(uid){
+  return request({
+    url:`users/${uid}`,
+  })
+}
+
+//修改用户状态
+export function ChangeStatus(uid,type){
+  return request({
+    url:`users/${uid}/state/${type}`,
+    //注意方法
+    method:'put'
+  })
+}
+
+//添加用户
+export function Addusers(username,password,email,mobile){
+  return request({
+    url:'users',
+    method:'post',
+    data:{
+      'username':username,
+      'password':password,
+      'email':email,
+      'mobile':mobile
     }
   })
 }

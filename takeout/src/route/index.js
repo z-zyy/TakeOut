@@ -6,10 +6,10 @@ Vue.use(Router);
 const routes=[
   {
     path:'',
-    redirect:'/ZyLogin',
+    redirect:'/login',
   },
   {
-    path:'/ZyLogin',
+    path:'/login',
     component:()=>import('components/content/login/ZyLogin'),
     meta:{
       title:'login'
