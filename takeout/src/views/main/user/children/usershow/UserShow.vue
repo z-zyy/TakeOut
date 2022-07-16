@@ -16,7 +16,7 @@
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-tooltip effect="dark" content="修改" placement="top" :enterable='false'>
-          <el-button type="primary" icon="el-icon-edit"></el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="ShowEdit"></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="删除" placement="top" :enterable='false'>
           <el-button type="danger" icon="el-icon-delete"></el-button>
@@ -55,6 +55,9 @@ export default {
           this.$toast.show(data.meta.msg,500);
         }
       })
+    },
+    ShowEdit(){
+      
     }
   }
 }

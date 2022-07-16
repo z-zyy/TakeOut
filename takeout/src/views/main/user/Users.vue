@@ -13,7 +13,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click.native="dialogVisible=true">添加用户</el-button>
+          <el-button type="primary" @click.native="$store.dispatch('ShowDialog')">添加用户</el-button>
         </el-col>
       </el-row>
       <user-show :userlist="usersList"></user-show>
@@ -26,30 +26,16 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="totleUser">
       </el-pagination>
-      <el-dialog
+      <dia-log
+        :dialog-visible="$store.state.Showdialog"
         title="添加成员"
-        :visible.sync="dialogVisible"
-        @close="ToggleData"
-        width="50%">
-        <el-form ref="adduser" :model="Userdata" label-width="70px" :rules="rules">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="Userdata.username" ></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="Userdata.password" show-password></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="Userdata.email"></el-input>
-          </el-form-item>
-          <el-form-item label="手机" prop="phone">
-            <el-input v-model="Userdata.phone"></el-input>
-          </el-form-item>
-        </el-form>  
-        <span slot="footer" class="dialog-footer">
-          <el-button  @click.native="dialogVisible=false">取 消</el-button>
-          <el-button type="primary" @click="AddData">确 定</el-button>
-        </span>
-    </el-dialog>
+        >
+        <dia-log-item
+        :user-data="Userdata"
+        :rules="rules"
+        ref="DiaLogitem">
+        </dia-log-item>
+      </dia-log>
     </el-card>
   </div>
 </template>
@@ -58,10 +44,14 @@
 import UserShow from './children/usershow/UserShow'
 import { Getusers,Addusers } from '@/network/Getusers'
 import {CheckEmail,CheckPhone,CheckPassword,CheckUsername} from '@/utils/utils'
+import DiaLog from 'components/content/dialog/DiaLog'
+import DiaLogItem from './children/dialogitem/DiaLogItem'
 export default {
   name:'users',
   components:{
     UserShow,
+    DiaLog,
+    DiaLogItem
   },
   created(){
     this.getUsers(this.userInfo.queryInfo,this.userInfo.pagenum,this.userInfo.pagesize)
@@ -78,8 +68,8 @@ export default {
       Userdata:{
         username:'',
         password:'',
-        email:null,
-        phone:null,
+        email:'',
+        phone:'',
       },
       rules:{
         username:[
@@ -91,16 +81,15 @@ export default {
           {validator:CheckPassword,trigger: 'blur'}
         ],
         email:[
-            { required: false, message: '请输入邮箱', trigger: 'blur' },
+            { required: true, message: '请输入邮箱', trigger: 'blur' },
             {validator:CheckEmail,trigger: 'blur'}
         ],
         phone:[
-            { required: false, message: '请输入手机号', trigger: 'blur' },
+            { required: true, message: '请输入手机号', trigger: 'blur' },
             {validator:CheckPhone,trigger:'blur'}
         ],
-      },
-      dialogVisible:false
       }
+    }
     },
     computed:{
       ShowSize(){
@@ -155,25 +144,27 @@ export default {
     AllUser(){
       this.getUsers('',this.userInfo.pagenum,this.userInfo.pagesize);
     },
-    ToggleData(){
-      //关闭对话框时重置参数
-      this.$refs.adduser.resetFields();
-      //重置用户名
-      this.Userdata.username='';
-    },
-    AddData(){
-      //添加用户
-      this.$refs.adduser.validate(valid=>{
-        const users=this.Userdata;
-        if(valid){
-          Addusers(users.username,users.password,users.email,users.phone).then(res=>{
-            this.$toast(res.data.data.meta.msg,200);
-            this.$refs.adduser.dialogVisible=false;
-          })    
-        }
-        else return valid
-      })
-    }
+    //重置dialog里面的内容
+    // Reset(){
+    //   console.log(123);
+    // }
+    //关闭弹窗
+    // AddData(){
+    //   //添加用户
+    //   this.$refs.adduser.validate(valid=>{
+    //     const users=this.Userdata;
+    //     if(valid){
+    //       Addusers(users.username,users.password,users.email,users.phone).then(res=>{
+    //         const data=res.data;
+    //         this.$refs.adduser.dialogVisible=false;
+    //         //this.$toast(data.meta.msg,200);    
+    //       })    
+    //     }
+    //     else{
+    //       this.$refs.adduser.dialogVisible=false;
+    //     }
+    //   })
+    // }
   }
 }
 </script>
