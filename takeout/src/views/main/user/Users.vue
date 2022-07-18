@@ -29,11 +29,11 @@
       <dia-log
         :dialog-visible="$store.state.Showdialog"
         title="添加成员"
-        >
+        @close="close">
         <dia-log-item
         :user-data="Userdata"
         :rules="rules"
-        ref="DiaLogitem">
+        ref="DiaLogItem">
         </dia-log-item>
       </dia-log>
     </el-card>
@@ -42,7 +42,7 @@
 
 <script>
 import UserShow from './children/usershow/UserShow'
-import { Getusers,Addusers } from '@/network/Getusers'
+import { Getusers } from '@/network/Getusers'
 import {CheckEmail,CheckPhone,CheckPassword,CheckUsername} from '@/utils/utils'
 import DiaLog from 'components/content/dialog/DiaLog'
 import DiaLogItem from './children/dialogitem/DiaLogItem'
@@ -144,27 +144,13 @@ export default {
     AllUser(){
       this.getUsers('',this.userInfo.pagenum,this.userInfo.pagesize);
     },
-    //重置dialog里面的内容
-    // Reset(){
-    //   console.log(123);
-    // }
-    //关闭弹窗
-    // AddData(){
-    //   //添加用户
-    //   this.$refs.adduser.validate(valid=>{
-    //     const users=this.Userdata;
-    //     if(valid){
-    //       Addusers(users.username,users.password,users.email,users.phone).then(res=>{
-    //         const data=res.data;
-    //         this.$refs.adduser.dialogVisible=false;
-    //         //this.$toast(data.meta.msg,200);    
-    //       })    
-    //     }
-    //     else{
-    //       this.$refs.adduser.dialogVisible=false;
-    //     }
-    //   })
-    // }
+    //关闭dialog
+    close(){
+      //dialog为false
+      this.$refs.DiaLogItem.Disdialog();
+      //监听关闭事件
+      this.$refs.DiaLogItem.resetFields();
+    }
   }
 }
 </script>

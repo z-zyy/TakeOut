@@ -29,7 +29,7 @@ export default {
 <style scoped>
 .toast{
   position: fixed;
-  z-index: 9;
+  z-index: 999;
   color: white;
   padding: 8px 10px;
   background: rgba(0,0,0,.8);

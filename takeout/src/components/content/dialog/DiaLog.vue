@@ -2,9 +2,8 @@
   <el-dialog
         :title="title"
         :visible.sync="$store.state.Showdialog"
-        @close.native="ToggleData"
-        ref="AddData"
-        width="50%">
+        width="50%"
+        @close="close">
         <slot></slot>
   </el-dialog>
 </template>
@@ -17,14 +16,13 @@ export default {
     title:{
       type:String,
       default:''
-    },
+    }
   },
   methods:{
-    ToggleData(){
-      //关闭dialog弹窗
-      console.log(213);
-      this.$store.dispatch('ShowDialog');
-    },
+    close(){
+      //传递一个关闭事件
+      this.$emit('close');
+    }
   }
 }
 </script>

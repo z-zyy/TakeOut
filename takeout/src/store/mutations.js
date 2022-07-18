@@ -1,7 +1,10 @@
-import {CgDialog} from './mutation_type';
+import {Display,Hidden} from './mutation_type';
 
 export default {
-  [CgDialog](state,payload){
-    state.Showdialog=!state.Showdialog;
+  [Display](state,payload){
+    state.Showdialog=true;
+  },
+  [Hidden](state,payload){
+    state.Showdialog=false;
   }
 }

@@ -6,8 +6,8 @@ import getters from './getter'
 
 Vue.use(Vuex)
 
-const state={ 
-  Showdialog:false
+const state={  
+  Showdialog:false,
 }
 
 const store=new Vuex.Store({

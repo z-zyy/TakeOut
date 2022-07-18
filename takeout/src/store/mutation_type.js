@@ -1,1 +1,2 @@
-export const CgDialog='CgDialog'
+export const Display='display';
+export const Hidden='Hidden';
