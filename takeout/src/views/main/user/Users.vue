@@ -16,7 +16,7 @@
           <el-button type="primary" @click.native="$store.dispatch('ShowDialog')">添加用户</el-button>
         </el-col>
       </el-row>
-      <user-show :userlist="usersList" @UpData="UpData"></user-show>
+      <user-show :userlist="usersList" @UpData="UpData" @DeleteUser="DeleteUser"></user-show>
       <el-pagination
         @size-change="SizeChange"
         @current-change="CurrentChange"
@@ -42,7 +42,7 @@
 
 <script>
 import UserShow from './children/usershow/UserShow'
-import { Getusers } from '@/network/Getusers'
+import { Getusers,DeleteUser} from '@/network/Getusers'
 import {CheckEmail,CheckPhone,CheckPassword,CheckUsername} from '@/utils/utils'
 import DiaLog from 'components/content/dialog/DiaLog'
 import DiaLogItem from './children/dialogitem/DiaLogItem'
@@ -117,7 +117,7 @@ export default {
         }
       },
       titleName(){
-        return this.Userdata.username?this.title[1] :this.title[0]
+        return this.Userdata.username? this.title[1] :this.title[0]
       },
   },
   methods:{
@@ -166,6 +166,22 @@ export default {
       this.Userdata.email=email;
       this.Userdata.phone=mobile;
       this.Userdata.id=id;
+    },
+    //删除User
+    DeleteUser({id}){
+      this.$confirm('此操作将永远删除用户,是否确定?','提示',{
+        confirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type:'warning'
+      }).then(res=>{
+        DeleteUser(id).then(res=>{
+          this.$toast.show(res.data.meta.msg,500);
+        })
+      }).catch(err=>{
+        this.$toast.show('取消删除用户',500);
+        return err
+      })
+
     }
   }
 }

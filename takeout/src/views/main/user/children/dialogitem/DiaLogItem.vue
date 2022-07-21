@@ -90,8 +90,8 @@ export default {
         const {email,phone,id}=this.userData;
         if(valid){
           ChangeUser(id,email,phone).then(res=>{
-               this.resetFields();
-               this.Disdialog();
+              this.resetFields();
+              this.Disdialog();
               this.$toast.show(res.data.meta.msg,600);
           })
         }

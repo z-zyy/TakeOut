@@ -53,3 +53,11 @@ export function ChangeUser(id,email,phone){
     }
   })
 }
+
+//删除用户
+export function DeleteUser(id){
+  return request({
+    url:`users/${id}`,
+    method:'delete'
+  })
+}

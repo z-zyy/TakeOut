@@ -58,7 +58,6 @@ export default {
     },
     UpData(status){
       //更新用户的信息
-      console.log(status);
       this.$emit('UpData',status);
       this.$store.dispatch('ShowDialog');
     },
