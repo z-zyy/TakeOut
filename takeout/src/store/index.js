@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 const state={  
   Showdialog:false,
+   
 }
 
 const store=new Vuex.Store({

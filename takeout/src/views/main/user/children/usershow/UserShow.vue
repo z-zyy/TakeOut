@@ -16,10 +16,10 @@
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-tooltip effect="dark" content="修改" placement="top" :enterable='false'>
-          <el-button type="primary" icon="el-icon-edit" @click.native="UpData"></el-button>
+          <el-button type="primary" icon="el-icon-edit" @click.native="UpData(scope.row)"></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="删除" placement="top" :enterable='false'>
-          <el-button type="danger" icon="el-icon-delete"></el-button>
+          <el-button type="danger" icon="el-icon-delete" @click.native="DeleteUser(scope.row)"></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="分配角色" placement="top" :enterable='false'>
           <el-button type="warning" icon="el-icon-setting"></el-button>
@@ -56,8 +56,14 @@ export default {
         }
       })
     },
-    UpData(){
-      this.$emit('UpData');
+    UpData(status){
+      //更新用户的信息
+      console.log(status);
+      this.$emit('UpData',status);
+      this.$store.dispatch('ShowDialog');
+    },
+    DeleteUser(status){
+      this.$emit('DeleteUser',status);
     }
   }
 }

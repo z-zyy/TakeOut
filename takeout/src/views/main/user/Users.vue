@@ -16,7 +16,7 @@
           <el-button type="primary" @click.native="$store.dispatch('ShowDialog')">添加用户</el-button>
         </el-col>
       </el-row>
-      <user-show :userlist="usersList"></user-show>
+      <user-show :userlist="usersList" @UpData="UpData"></user-show>
       <el-pagination
         @size-change="SizeChange"
         @current-change="CurrentChange"
@@ -28,7 +28,7 @@
       </el-pagination>
       <dia-log
         :dialog-visible="$store.state.Showdialog"
-        title="添加成员"
+        :title="titleName"
         @close="close">
         <dia-log-item
         :user-data="Userdata"
@@ -56,40 +56,46 @@ export default {
   created(){
     this.getUsers(this.userInfo.queryInfo,this.userInfo.pagenum,this.userInfo.pagesize)
   },
+  updated(){
+    //当数据发生更新的时候就再查询一次
+    this.getUsers(this.userInfo.queryInfo,this.userInfo.pagenum,this.userInfo.pagesize)
+  },
   data() {
     return {
-      userInfo:{
-          pagenum:1,
-          pagesize:4,
-          queryInfo:'',
-      },
-      totleUser:0,
-      usersList:[],
-      Userdata:{
-        username:'',
-        password:'',
-        email:'',
-        phone:'',
-      },
-      rules:{
-        username:[
-          {required:true,message:'请输入账号',trigger: 'blur'},
-          {validator:CheckUsername,trigger: 'blur'}
-        ],
-        password:[
-          {required:true,message:'请输入密码',trigger: 'blur'},
-          {validator:CheckPassword,trigger: 'blur'}
-        ],
-        email:[
-            { required: true, message: '请输入邮箱', trigger: 'blur' },
-            {validator:CheckEmail,trigger: 'blur'}
-        ],
-        phone:[
-            { required: true, message: '请输入手机号', trigger: 'blur' },
-            {validator:CheckPhone,trigger:'blur'}
-        ],
+        userInfo:{
+            pagenum:1,
+            pagesize:4,
+            queryInfo:'',
+        },
+        totleUser:0,
+        usersList:[],
+        Userdata:{
+          username:null,
+          password:null,
+          email:null,
+          phone:null,
+          id:0
+        },
+        title:['添加用户','修改用户'],
+        rules:{
+          username:[
+            {required:true,message:'请输入账号',trigger: 'blur'},
+            {validator:CheckUsername,trigger: 'blur'}
+          ],
+          password:[
+            {required:true,message:'请输入密码',trigger: 'blur'},
+            {validator:CheckPassword,trigger: 'blur'}
+          ],
+          email:[
+              { required: true, message: '请输入邮箱', trigger: 'blur' },
+              {validator:CheckEmail,trigger: 'blur'}
+          ],
+          phone:[
+              { required: true, message: '请输入手机号', trigger: 'blur' },
+              {validator:CheckPhone,trigger:'blur'}
+          ],
+        }
       }
-    }
     },
     computed:{
       ShowSize(){
@@ -109,8 +115,11 @@ export default {
           }
           return arr
         }
-      }
-    },
+      },
+      titleName(){
+        return this.Userdata.username?this.title[1] :this.title[0]
+      },
+  },
   methods:{
     //请求函数封装
     getUsers(queryInfo,pagenum,pagesize){
@@ -150,6 +159,13 @@ export default {
       this.$refs.DiaLogItem.Disdialog();
       //监听关闭事件
       this.$refs.DiaLogItem.resetFields();
+    },
+    //修改用户信息
+    UpData({username,email,mobile,id}){
+      this.Userdata.username=username;
+      this.Userdata.email=email;
+      this.Userdata.phone=mobile;
+      this.Userdata.id=id;
     }
   }
 }

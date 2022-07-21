@@ -40,3 +40,16 @@ export function Addusers(username,password,email,mobile){
     }
   })
 }
+
+//修改用户内容
+
+export function ChangeUser(id,email,phone){
+  return request({
+    url:`users/${id}`,
+    method:'put',
+    data:{
+      'email':email,
+      'mobile':phone
+    }
+  })
+}
