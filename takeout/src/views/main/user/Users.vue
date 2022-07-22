@@ -43,9 +43,9 @@
 <script>
 import UserShow from './children/usershow/UserShow'
 import { Getusers,DeleteUser} from '@/network/Getusers'
-import {CheckEmail,CheckPhone,CheckPassword,CheckUsername} from '@/utils/utils'
 import DiaLog from 'components/content/dialog/DiaLog'
 import DiaLogItem from './children/dialogitem/DiaLogItem'
+import minix from '@/utils/minix'
 export default {
   name:'users',
   components:{
@@ -60,6 +60,7 @@ export default {
     //当数据发生更新的时候就再查询一次
     this.getUsers(this.userInfo.queryInfo,this.userInfo.pagenum,this.userInfo.pagesize)
   },
+  mixins:[minix],
   data() {
     return {
         userInfo:{
@@ -77,24 +78,6 @@ export default {
           id:0
         },
         title:['添加用户','修改用户'],
-        rules:{
-          username:[
-            {required:true,message:'请输入账号',trigger: 'blur'},
-            {validator:CheckUsername,trigger: 'blur'}
-          ],
-          password:[
-            {required:true,message:'请输入密码',trigger: 'blur'},
-            {validator:CheckPassword,trigger: 'blur'}
-          ],
-          email:[
-              { required: true, message: '请输入邮箱', trigger: 'blur' },
-              {validator:CheckEmail,trigger: 'blur'}
-          ],
-          phone:[
-              { required: true, message: '请输入手机号', trigger: 'blur' },
-              {validator:CheckPhone,trigger:'blur'}
-          ],
-        }
       }
     },
     computed:{
@@ -181,7 +164,6 @@ export default {
         this.$toast.show('取消删除用户',500);
         return err
       })
-
     }
   }
 }

@@ -58,6 +58,7 @@ export default {
   computed:{
     toggleContent(){
       //判断是否有值
+      
       return this.userData.username ? false : true;
     }
   },

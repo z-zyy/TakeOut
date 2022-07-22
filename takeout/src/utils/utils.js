@@ -27,3 +27,17 @@ export function CheckPassword(rule,value,back){
   else if(!RegPassword.test(value)) return back(new Error('最少6位,包括至少1个大写字母,1个小写字母,1个数字,1个特殊字符'))
   else return back()
 }
+
+
+//防抖函数
+export function debuence(fn,delay=200){
+    //生成一个定时器
+    let timer=null;
+    return function(...argument){
+      //如果循换调用这个函数可以延迟执行
+      if(timer) clearTimeout(timer);
+      timer=setTimeout(()=>{
+        fn.apply(this,argument);
+      },delay)
+    }
+  }
